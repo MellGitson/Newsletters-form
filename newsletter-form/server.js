@@ -1,56 +1,52 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 const PORT = 3000;
 
-
-let subscribers = [];
-
+let subscribers = []; 
 
 app.use(express.json());
+app.use(express.static('.'));
 
-
-app.post("/subscribe", (req, res) => {
+app.post('/subscribe', (req, res) => {
   const { email, firstName, lastName } = req.body;
-  const errors = [];
 
   
-  if (
-    !email ||
-    typeof email !== "string" ||
-    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  ) {
-    errors.push("Email invalide.");
-  }
+  let isEmailInDb = false;
+  let success = true;
 
-  if (!firstName || typeof firstName !== "string" || firstName.trim() === "") {
-    errors.push("Prénom requis.");
-  }
-
-  if (!lastName || typeof lastName !== "string" || lastName.trim() === "") {
-    errors.push("Nom requis.");
+  
+  if (!email || !firstName || !lastName) {
+    return res.json({
+      success: false,
+      errors: ["Données manquantes."],
+      isEmailInDb: false
+    });
   }
 
   
-  if (
-    subscribers.some((sub) => sub.email.toLowerCase() === email.toLowerCase())
-  ) {
-    errors.push("Cet email est déjà inscrit.");
+  if (subscribers.some(sub => sub.email.toLowerCase() === email.toLowerCase())) {
+    isEmailInDb = true;
+    success = false;
   }
 
-  if (errors.length > 0) {
-    return res.json({ success: false, errors });
+  
+  if (isEmailInDb) {
+    return res.json({
+      success: false,
+      isEmailInDb: true,
+      errors: ["Email déjà présent dans la base."]
+    });
   }
 
   
   subscribers.push({ email, firstName, lastName });
-  console.log("Nouvel abonné :", { email, firstName, lastName });
+  console.log('Nouvel abonné :', { email, firstName, lastName });
 
-  res.json({ success: true });
+  res.json({
+    success: true,
+    isEmailInDb: false
+  });
 });
-
-
-app.use(express.static("."));
-
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
