@@ -1,0 +1,38 @@
+ body {
+      background: linear-gradient(135deg, #0f011c 0%, #090225 100%);
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    .container-form {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(250, 247, 247, 0.08);
+      background: #03015f;
+    }
+    .container-form h2 {
+      font-weight: 600;
+      color: #f1f2f5;
+      margin-bottom: 1.5rem;
+    }
+    h3 {
+      font-weight: 400;
+      color: #c1c2c5;
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      font-weight: 500;
+      color: #f6f7f7;
+    }
+    .form-control {
+      font-weight: 500;
+      color: #1e1f1fdd; 
+    }
+     #email {
+      font-weight: 500;
+      margin-right: 1rem;
+      color: #202222ea;
+    }
+    #message {
+      min-height: 60px;
+      color: #f6f7f7;
+    }
